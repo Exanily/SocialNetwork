@@ -8,7 +8,6 @@ import ru.skillbox.model.AuthController;
 import ru.skillbox.request.LoginRequest;
 import ru.skillbox.request.PasswordRecoveryRequest;
 import ru.skillbox.request.RegistrationRequest;
-import ru.skillbox.response.CaptchaResponse;
 import ru.skillbox.response.ErrorResponse;
 import ru.skillbox.response.Responsable;
 import ru.skillbox.service.AuthService;
@@ -59,9 +58,7 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
-    public ResponseEntity<CaptchaResponse> captcha() {
+    public ResponseEntity<Responsable> captcha() {
         return ResponseEntity.ok(captchaFileService.generateCaptchaResponse());
     }
-
-
 }

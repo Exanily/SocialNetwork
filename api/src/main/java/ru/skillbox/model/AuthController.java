@@ -12,17 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.skillbox.request.LoginRequest;
 import ru.skillbox.request.PasswordRecoveryRequest;
 import ru.skillbox.request.RegistrationRequest;
-import ru.skillbox.response.CaptchaResponse;
-import ru.skillbox.response.LoginResponse;
-import ru.skillbox.response.PasswordRecoveryResponse;
-import ru.skillbox.response.Responsable;
+import ru.skillbox.response.*;
 
 @RequestMapping("/api/v1/auth")
 public interface AuthController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Успешный вход (возвращаются поля timestamp, data, accessToken и tokenType)",
                     content = {
                             @Content(
                                     mediaType = "application/json",
@@ -31,11 +27,10 @@ public interface AuthController {
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Неверный запрос (возвращаются поля error и error_description)",
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = LoginResponse.class))
+                                    schema = @Schema(implementation = ErrorResponse.class))
                     }
             )
     })
@@ -47,29 +42,40 @@ public interface AuthController {
 
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
-                    description = "Успешный вход (возвращаются поля timestamp и data)",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Responsable.class))
-                    }
+                    responseCode = "200"
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Неверный запрос (возвращаются поля error и error_description)",
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = Responsable.class))
+                                    schema = @Schema(implementation = ErrorResponse.class))
                     }
             )
     })
     @PostMapping("/register")
     ResponseEntity<Responsable> registration(@RequestBody RegistrationRequest request);
 
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = CaptchaResponse.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }
+            )
+    })
     @GetMapping("/captcha")
-    ResponseEntity<CaptchaResponse> captcha();
+    ResponseEntity<Responsable> captcha();
 
     @ApiResponses(value = {
             @ApiResponse(
@@ -83,11 +89,10 @@ public interface AuthController {
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Неверный запрос (возвращаются поля error и error_description)",
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = PasswordRecoveryResponse.class))
+                                    schema = @Schema(implementation = ErrorResponse.class))
                     }
             )
     })

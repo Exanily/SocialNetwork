@@ -53,7 +53,7 @@ public class AuthService {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
-        String jwt = jwtTokenProvider.createToken(authentication.getName(), "ROLE_USER");
+        String jwt = jwtTokenProvider.createToken(authentication.getName(), Role.ROLE_USER.getValue());
         return new LoginResponse().getResponse(jwt);
     }
 
