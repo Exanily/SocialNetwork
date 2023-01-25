@@ -39,13 +39,7 @@ public class AuthService {
 
     public Responsable login(LoginRequest request) throws UsernameNotFoundException {
         User user = userService.getUserByEmail(request.getEmail());
-        if (!userService.passwordCheck(request.getPassword(), user.getPassword())) {
-            throw new InvalidCredentialsException();
-        }
-        if (!user.isEnabled()) {
-            throw new InvalidCredentialsException();
-        }
-        if (!user.isAccountNonLocked()) {
+        if (!userService.passwordCheck(request.getPassword(), user.getPassword()) && !user.isEnabled() && !user.isAccountNonLocked()) {
             throw new InvalidCredentialsException();
         }
         GrantedAuthority authority = new SimpleGrantedAuthority(Role.ROLE_USER.getValue());
@@ -53,7 +47,7 @@ public class AuthService {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
-        String jwt = jwtTokenProvider.createToken(authentication.getName(), "ROLE_USER");
+        String jwt = jwtTokenProvider.createToken(authentication.getName(), Role.ROLE_USER.getValue());
         return new LoginResponse().getResponse(jwt);
     }
 
@@ -67,7 +61,7 @@ public class AuthService {
     }
 
     public void registration(RegistrationRequest request) throws UserIsAlreadyRegisteredException {
-        if(captchaFileService.getCaptchaFileByName(request.getCode()).isEmpty()){
+        if (captchaFileService.getCaptchaFileByName(request.getCode()).isEmpty()) {
             throw new CaptchaException();
         }
         userService.registration(request);

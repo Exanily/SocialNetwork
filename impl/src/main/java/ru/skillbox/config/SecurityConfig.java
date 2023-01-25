@@ -44,14 +44,10 @@ public class SecurityConfig {
                 .logout()
                 .logoutUrl("/api/v1/auth/logout")
                 .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .and()
                 .apply(jwtConfigurer)
                 .and()
-                .sessionManagement()
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
         ;
 
         return http.build();
