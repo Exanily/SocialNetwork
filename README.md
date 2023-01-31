@@ -9,7 +9,26 @@ The search for news, people is carried out using specification jpa technology.</
 The system uses Spring Security technology to authorize/logout a user, get the current user, configure cors, and more.</br>
 Docker is used to package the application.
 
+
+
+
 <h2>Start instructions</h2>
+Fill in program arguments:
+--cloud.name=
+--api.key=
+--api.secret=
+--db.driver=
+--db.url=
+--db.user=
+--db.pass=
+--jwt.secret=
+--jwt.expiration=
+--jwt.header=
+--mail.host=
+--mail.port=
+--mail.username=
+--mail.password=
+
 To run the project locally, you need to run the program in java for execution - run the main program:</br><b>impl/src/main/java/ru/skillbox/SocialNetworkApplication.java.</b> </br>
 Run docker and load image from dockerHub:<b> docker pull andrei19386/myrepository:v.4.1.1.</b></br>
 Run the docker container on port 8086:<b> docker run -d -p 8086:8086 andrei19386/myrepository:v.4.1.1</b> .</br>
